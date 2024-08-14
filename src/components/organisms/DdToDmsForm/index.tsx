@@ -5,7 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { InputForm } from "@/components/molecules/InputForm";
 
-export function DdToDmsForm() {
+interface DdToDmsFormProps {
+  onAddToMaps: (lat: number, long: number) => void;
+}
+
+export function DdToDmsForm({ onAddToMaps }: DdToDmsFormProps) {
   const [latDD, setLatDD] = useState("");
   const [longDD, setLongDD] = useState("");
   const [latDMS, setLatDMS] = useState({
@@ -26,6 +30,14 @@ export function DdToDmsForm() {
     const long = ddToDms(parseFloat(longDD));
     setLatDMS(lat);
     setLongDMS(long);
+  };
+
+  const handleAddToMapsClick = () => {
+    const lat = parseFloat(latDD);
+    const long = parseFloat(longDD);
+    if (!isNaN(lat) && !isNaN(long)) {
+      onAddToMaps(lat, long);
+    }
   };
 
   return (
@@ -95,7 +107,11 @@ export function DdToDmsForm() {
         </div>
       </div>
       <div className={`w-full`}>
-        <Button type="submit" className={`w-full`}>
+        <Button
+          type="submit"
+          className={`w-full`}
+          onClick={handleAddToMapsClick}
+        >
           Add to Maps
         </Button>
       </div>

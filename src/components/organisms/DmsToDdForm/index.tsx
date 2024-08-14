@@ -6,7 +6,11 @@ import { Label } from "@/components/ui/label.tsx";
 import { SymbolPlaceholder } from "@/components/atoms/SymbolPlaceholder";
 import { InputForm } from "@/components/molecules/InputForm";
 
-export function DmsToDdForm() {
+interface DmsToDdFormProps {
+  onAddToMaps: (lat: number, long: number) => void;
+}
+
+export function DmsToDdForm({ onAddToMaps }: DmsToDdFormProps) {
   const [latDMS, setLatDMS] = useState({
     degrees: "",
     minutes: "",
@@ -37,6 +41,30 @@ export function DmsToDdForm() {
     );
     setLatDD(lat);
     setLongDD(long);
+  };
+
+  const handleAddToMapsClick = () => {
+    let lat = latDD;
+    let long = longDD;
+
+    if (lat === null || long === null) {
+      lat = dmsToDd(
+        parseFloat(latDMS.degrees),
+        parseFloat(latDMS.minutes),
+        parseFloat(latDMS.seconds),
+        latDMS.direction,
+      );
+      long = dmsToDd(
+        parseFloat(longDMS.degrees),
+        parseFloat(longDMS.minutes),
+        parseFloat(longDMS.seconds),
+        longDMS.direction,
+      );
+    }
+
+    if (lat !== null && long !== null) {
+      onAddToMaps(lat, long);
+    }
   };
 
   return (
@@ -193,7 +221,11 @@ export function DmsToDdForm() {
         </div>
       </div>
       <div className={`w-full`}>
-        <Button type="submit" className={`w-full`}>
+        <Button
+          type="button"
+          className={`w-full`}
+          onClick={handleAddToMapsClick}
+        >
           Add to Maps
         </Button>
       </div>
