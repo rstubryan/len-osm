@@ -46,3 +46,79 @@ Berikut merupakan tahapan untuk melakukan testing pada project ini:
 
 - Masuk ke directory `len-osm`
 - Lalu jalankan `npm test` pada terminal
+
+## Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant MapTemplates
+    participant DmsToDdForm
+    participant DdToDmsForm
+    participant OpenLayersMap
+    participant UtilityFunctions
+
+    User->>MapTemplates: Load Page
+    MapTemplates->>OpenLayersMap: Initialize Map
+    User->>MapTemplates: Open Dialog
+    MapTemplates->>DmsToDdForm: Render Form
+    MapTemplates->>DdToDmsForm: Render Form
+    User->>DmsToDdForm: Input DMS Coordinates
+    DmsToDdForm->>UtilityFunctions: Call dmsToDd
+    UtilityFunctions-->>DmsToDdForm: Return DD Coordinates
+    DmsToDdForm->>MapTemplates: Call handleAddToMaps
+    MapTemplates->>OpenLayersMap: Add Marker
+    User->>DdToDmsForm: Input DD Coordinates
+    DdToDmsForm->>UtilityFunctions: Call ddToDms
+    UtilityFunctions-->>DdToDmsForm: Return DMS Coordinates
+    DdToDmsForm->>MapTemplates: Call handleAddToMaps
+    MapTemplates->>OpenLayersMap: Add Marker
+```
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class MapTemplates {
+        +MapTemplates()
+        +useEffect()
+        +handleAddToMaps(lat: number, long: number)
+    }
+
+    class DmsToDdForm {
+        +DmsToDdForm(onAddToMaps: (lat: number, long: number) => void)
+        +handleConvert()
+        +handleAddToMapsClick()
+    }
+
+    class DdToDmsForm {
+        +DdToDmsForm(onAddToMaps: (lat: number, long: number) => void)
+        +handleConvert()
+        +handleAddToMapsClick()
+    }
+
+    class UtilityFunctions {
+        +dmsToDd(degrees: number, minutes: number, seconds: number, direction: string): number
+        +ddToDms(decimalDegrees: number): { degrees: number, minutes: number, seconds: number, direction: string }
+    }
+
+    class OpenLayersMap {
+        +Map()
+        +View()
+        +TileLayer()
+        +OSM()
+        +fromLonLat()
+        +Feature()
+        +Point()
+        +VectorSource()
+        +VectorLayer()
+        +Style()
+        +Icon()
+    }
+
+    MapTemplates --> DmsToDdForm : uses
+    MapTemplates --> DdToDmsForm : uses
+    MapTemplates --> OpenLayersMap : uses
+    DmsToDdForm --> UtilityFunctions : uses
+    DdToDmsForm --> UtilityFunctions : uses
+```
