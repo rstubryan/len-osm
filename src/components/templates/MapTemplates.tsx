@@ -23,10 +23,18 @@ import VectorLayer from "ol/layer/Vector";
 import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 
+/**
+ * Komponen template peta yang menggunakan OpenLayers untuk menampilkan peta dan menambahkan marker sesuai dengan apa yang diinputkan user.
+ *
+ * @returns {JSX.Element} Elemen JSX yang mewakili template peta.
+ */
 export function MapTemplates() {
   const [map, setMap] = useState<Map | null>(null);
   const [markerSource, setMarkerSource] = useState<VectorSource | null>(null);
 
+  /**
+   * Menginisialisasi peta dan layer marker saat komponen pertama kali dirender.
+   */
   useEffect(() => {
     const initialMap = new Map({
       target: "map",
@@ -55,16 +63,18 @@ export function MapTemplates() {
     };
   }, []);
 
+  /**
+   * Menambahkan marker ke peta berdasarkan koordinat latitude dan longitude yang diberikan.
+   *
+   * @param {number} lat - Koordinat latitude.
+   * @param {number} long - Koordinat longitude.
+   */
   const handleAddToMaps = (lat: number, long: number) => {
     if (map && markerSource) {
       const coordinates = fromLonLat([long, lat]);
-
-      // Create a marker feature
       const markerFeature = new Feature({
         geometry: new Point(coordinates),
       });
-
-      // Set the style of the marker (icon)
       markerFeature.setStyle(
         new Style({
           image: new Icon({
@@ -73,12 +83,8 @@ export function MapTemplates() {
           }),
         }),
       );
-
-      // Add the marker to the source
-      markerSource.clear(); // Clear previous markers
+      markerSource.clear();
       markerSource.addFeature(markerFeature);
-
-      // Center the map on the marker
       map.getView().setCenter(coordinates);
     }
   };

@@ -10,6 +10,12 @@ interface DmsToDdFormProps {
   onAddToMaps: (lat: number, long: number) => void;
 }
 
+/**
+ * Komponen form untuk mengonversi koordinat Degrees Minutes Seconds (DMS) ke Decimal Degrees (DD).
+ *
+ * @param {DmsToDdFormProps} props - Properti komponen.
+ * @returns {JSX.Element} Elemen JSX yang mewakili form.
+ */
 export function DmsToDdForm({ onAddToMaps }: DmsToDdFormProps) {
   const [latDMS, setLatDMS] = useState({
     degrees: "",
@@ -26,6 +32,9 @@ export function DmsToDdForm({ onAddToMaps }: DmsToDdFormProps) {
   const [latDD, setLatDD] = useState<number | null>(null);
   const [longDD, setLongDD] = useState<number | null>(null);
 
+  /**
+   * Mengonversi koordinat DMS ke DD dan memperbarui state.
+   */
   const handleConvert = () => {
     const lat = dmsToDd(
       parseFloat(latDMS.degrees),
@@ -43,6 +52,9 @@ export function DmsToDdForm({ onAddToMaps }: DmsToDdFormProps) {
     setLongDD(long);
   };
 
+  /**
+   * Memanggil fungsi `onAddToMaps` dengan koordinat DD yang telah dikonversi.
+   */
   const handleAddToMapsClick = () => {
     let lat = latDD;
     let long = longDD;
