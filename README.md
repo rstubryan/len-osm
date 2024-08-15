@@ -1,5 +1,17 @@
 # React + TypeScript + Vite
 
+Jelaskan dan analogikan pemahaman mengenai reactjs , state management , design pattern dan openlayer.
+
+Jawaban :
+
+ReactJS merupakan sebuah alat bantu yang digunakan untuk membangun sebuah web yang lebih mudah dan cepat dalam segi pengembangannya di bandingkan dengan Vanila Javascrit.
+
+State Management merupakan sebuah cara untuk mengelola sebuah statement atau data yang nantinya akan dibuat lebih mudah dalam pengelolaan dan pengembangannya.
+
+Design Pattern merupakan sebuah pola sistem yang digunakan untuk membangun sebuah aplikasi yang lebih mudah dalam pengembangannya.
+
+OpenLayer merupakan sebuah engine library yang digunakan untuk membangun sebuah peta yang akan diintegrasikan ke dalam web dengan jenis peta yang varian.
+
 ## Struktur Folder Project
 
 Struktur folder project ini menerapkan atomic design, sehingga terdapat beberapa folder yang harus diperhatikan:
